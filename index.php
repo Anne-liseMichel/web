@@ -1,5 +1,5 @@
 <?php
-
+	
 	if(!isset($_SESSION)) { 
 		session_start();
 	}
@@ -12,6 +12,12 @@
 
 	if(!isset($_SESSION['AUTH'])) { 
 		$_SESSION['AUTH']=0;
+	}
+
+	if(isset($_POST['inputUser']) && isset($_POST['inputPassword'])) {
+		if($_POST['inputUser']=="a" && $_POST['inputPassword']=="b") {
+			$_SESSION['AUTH']=1;
+		}
 	}
 
 	if(isset($_SESSION['AUTH']) && $_SESSION['AUTH']==1) {
@@ -50,7 +56,7 @@
 
   <body>
 
-	<?php include $_SESSION['PAGE'] ?>
+	<?php include_once $_SESSION['PAGE'] ?>
 
   </body>
 </html>
