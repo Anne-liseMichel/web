@@ -1,7 +1,7 @@
 {
-	"ADD":"Ajouter",
-	"SIGNIN":"S'identifier",
-	"EMAIL":"Adresse électronique",
-	"PASSWORD":"Mot de passe",
-	"LOGIN":"Nom d'utilisateur"
+	'ADD':'Ajouter',
+	'SIGNIN':'S'identifier',
+	'EMAIL':'Adresse électronique',
+	'PASSWORD':'Mot de passe',
+	'LOGIN':'Nom d'utilisateur'
 }
