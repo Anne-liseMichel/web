@@ -1,7 +1,13 @@
 {
-	'ADD':'Ajouter',
-	'SIGNIN':'S'identifier',
-	'EMAIL':'Adresse électronique',
-	'PASSWORD':'Mot de passe',
-	'LOGIN':'Nom d'utilisateur'
+	"LANG":"Francais",
+	"ADD":"Ajouter",
+	"SIGNIN":"S'identifier",
+	"EMAIL":"Adresse electronique",
+	"PASSWORD":"Mot de passe",
+	"LOGIN":"Nom d'utilisateur",
+	"DISCONNECT":"Deconnection",
+	"SEND":"Envoyer",
+	"TODO":"A faire",
+	"WIP":"En cours",
+	"DONE":"Fini"
 }

@@ -1,35 +1,52 @@
 <?php
-
+	//Starts the session
 	if(!isset($_SESSION)) { 
 		session_start();
 	}
-
+	//Default language load
 	if(!isset($_SESSION['LANG'])) { 
-		$_SESSION['LANG']='french.json';
+		$_SESSION['LANG']='french';
 	}
-
-	$_SESSION['APPVAR'] = json_decode(file_get_contents('./data/' . $_SESSION['LANG'] ));
-
+	//Loads the desired language file
+	$LOCALE = json_decode(file_get_contents('./data/'.$_SESSION['LANG'].'.json'),true);
+	//Inits the authentification
 	if(!isset($_SESSION['AUTH'])) { 
 		$_SESSION['AUTH']=0;
 	}
-
+	//Verifies the user/pass combo of the user
 	if(isset($_POST['inputUser']) && isset($_POST['inputPassword'])) {
-		if($_POST['inputUser']=="a" && $_POST['inputPassword']=="b") {
+		$SHADOW = json_decode(file_get_contents('./data/users.json'),true);
+		$uhash = hash("sha256", $_POST['inputUser']."Salt&Pepper".$_POST['inputPassword']);
+		if(isset($SHADOW[$uhash])) {
 			$_SESSION['AUTH']=1;
+			$expl = explode('-',$SHADOW[$uhash]);
+			$_SESSION['LANG']=$expl[0];
+			$_SESSION['RIGHTS']=$expl[1];
+			$LOCALE = json_decode(file_get_contents('./data/'.$_SESSION['LANG'].'.json'),true);
 		}
 	}
-
+	//Redirects to main page
 	if(isset($_SESSION['AUTH']) && $_SESSION['AUTH']==1) {
 
 		$_SESSION['PAGENAME']='AM-VS TaskManager';
 		$_SESSION['PAGE']='main.php';
-
+	//Locks on the login page
 	} else {
 
 		$_SESSION['PAGENAME']='AM-VS Login';
 		$_SESSION['PAGE']='signin.php';
 
+	}
+
+	//Language switch
+	if(isset($_POST['otherLang'])){
+		if($_SESSION['LANG']=='french'){
+			$_SESSION['LANG']='english';
+		} else {
+			$_SESSION['LANG']='french';
+		}
+		unset($_POST['otherLang']);
+		$LOCALE = json_decode(file_get_contents('./data/'.$_SESSION['LANG'].'.json'),true);
 	}
 	
 ?>
