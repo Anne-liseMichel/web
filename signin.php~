@@ -1,0 +1,20 @@
+<?php
+	print_r($_POST);
+?>
+
+    <div class="container">
+
+      <form class="form-signin" action="index.php" method="post">
+
+        <h2 class="form-signin-heading"> SIGNIN <?php echo $_SESSION['APPVAR']['SIGNIN'] ?> </h2>
+
+        <label for="inputUser" class="sr-only"> EMAIL <?php echo($_SESSION['APPVAR']['EMAIL']); ?> </label>
+        <input type="user" name="inputUser" class="form-control" required autofocus>
+
+        <label for="inputPassword" class="sr-only"> PASSWORD <?php echo($_SESSION['APPVAR']['PASSWORD']); ?> </label>
+        <input type="password" name="inputPassword" class="form-control" required>
+		
+        <button class="btn btn-lg btn-primary" type="submit"> LOGIN <?php echo($_SESSION['APPVAR']['LOGIN']); ?> </button>
+      </form>
+
+    </div> <!-- /container -->
