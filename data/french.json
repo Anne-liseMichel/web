@@ -11,5 +11,6 @@
 	"WIP":"En cours",
 	"DONE":"Fini",
 	"MANAGE":"Gestion",
-	"REMEMBER":"Se souvenir"
+	"REMEMBER":"Se souvenir",
+	"TASK":"Tache"
 }

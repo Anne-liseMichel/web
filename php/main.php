@@ -37,6 +37,11 @@
 
 		<?php
 
+			$TODO = json_decode(file_get_contents('./data/todo.json'),true);
+			foreach($TODO as $k=>$v){
+				echo '<tr><td>'.$k.'</td><td>'.$v.'</td></tr>';
+			}
+
 		?>
 
 		</table>
@@ -47,6 +52,11 @@
 
 		<?php
 
+			$WIP = json_decode(file_get_contents('./data/wip.json'),true);
+			foreach($WIP as $k=>$v){
+				echo '<tr><td>'.$k.'</td><td>'.$v.'</td></tr>';
+			}
+
 		?>
 
 		</table>
@@ -56,6 +66,11 @@
 		<th> <?php echo $LOCALE['DONE'] ?> </th>
 
 		<?php
+
+			$ENDED = json_decode(file_get_contents('./data/done.json'),true);
+			foreach($ENDED as $k=>$v){
+				echo '<tr><td>'.$k.'</td><td>'.$v.'</td></tr>';
+			}
 
 		?>
 

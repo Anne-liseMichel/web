@@ -11,5 +11,6 @@
 	"WIP":"Work in progress",
 	"DONE":"Done",
 	"MANAGE":"Management",
-	"REMEMBER":"Remember me"
+	"REMEMBER":"Remember me",
+	"TASK":"Task"
 }
