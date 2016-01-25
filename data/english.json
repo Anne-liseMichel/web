@@ -9,5 +9,7 @@
 	"SEND":"Send",
 	"TODO":"To do",
 	"WIP":"Work in progress",
-	"DONE":"Done"
+	"DONE":"Done",
+	"MANAGE":"Management",
+	"REMEMBER":"Remember me"
 }

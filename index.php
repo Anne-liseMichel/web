@@ -22,6 +22,8 @@
 			$expl = explode('-',$SHADOW[$uhash]);
 			$_SESSION['LANG']=$expl[0];
 			$_SESSION['RIGHTS']=$expl[1];
+			$_SESSION['USERHASH']=$uhash;
+			$_SESSION['USERSET']=$SHADOW[$uhash];
 			$LOCALE = json_decode(file_get_contents('./data/'.$_SESSION['LANG'].'.json'),true);
 		}
 	}
@@ -45,8 +47,34 @@
 		} else {
 			$_SESSION['LANG']='french';
 		}
+		if($_SESSION['AUTH']==1){
+			$SHADOW = json_decode(file_get_contents('./data/users.json'),true);
+			$expl = explode('-',$_SESSION['USERSET']);
+
+			if($_SESSION['LANG']=='french'){
+				$uset='english'.'-'.$expl[1];
+			} else {
+				$uset='french'.'-'.$expl[1];
+			}
+			$SHADOW[$_SESSION['USERHASH']]=$uset;
+
+			file_put_contents('./data/users.json',json_encode($SHADOW));
+			
+		}
 		unset($_POST['otherLang']);
 		$LOCALE = json_decode(file_get_contents('./data/'.$_SESSION['LANG'].'.json'),true);
+	}
+
+	//Cookie remember
+	if(isset($_SESSION['AUTH']) && $_SESSION['AUTH']==1 && isset($_POST['remember'])){
+		setcookie('NAME',$_POST['inputUser'],time()+10);
+	}
+
+	//Disconnection handler
+	if(isset($_POST['disconnect'])){
+		session_destroy();
+		header("Refresh:0");
+		exit;
 	}
 	
 ?>
@@ -73,7 +101,7 @@
 
   <body>
 
-	<?php include_once $_SESSION['PAGE'] ?>
+	<?php include_once './php/'.$_SESSION['PAGE'] ?>
 
   </body>
 </html>

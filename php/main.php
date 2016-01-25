@@ -1,9 +1,5 @@
 <?php
-	if(isset($_POST['disconnect'])){
-		session_destroy();
-		header('Location: ./index.php');
-		exit;
-	}	
+	
 ?>
 
     <nav class="navbar navbar-default">
@@ -21,6 +17,8 @@
 	<form class="navbar-form navbar-left" method="post">
 		<button class="btn btn-default" name="addTask" type="submit"> <?php echo($LOCALE['ADD']) ?> </button>
 		<button class="btn btn-default" name="disconnect" type="submit"> <?php echo ($LOCALE['DISCONNECT']) ?> </button>
+		<button class="btn btn-default" name="otherLang" type="submit"> <?php echo $LOCALE['LANG'] ?> </button>
+		<?php if(isset($_SESSION['RIGHTS']) && $_SESSION['RIGHTS']=='admin'){ echo '<button class="btn btn-default" name="manage" type="submit">'.$LOCALE['MANAGE'].'</button>';}; ?>
 	</form>
         </div><!--/.nav-collapse -->
       </div>
@@ -34,8 +32,8 @@
       </div>
     <div class="row">
 	  <div class="col-md-4">
-		<h3> <?php echo $LOCALE['TODO'] ?> </h3>
 		<table class="table table-striped">
+		<th> <?php echo $LOCALE['TODO'] ?> </th>
 
 		<?php
 
@@ -44,8 +42,8 @@
 		</table>
 	  </div>
 	  <div class="col-md-4">
-		<h3> <?php echo $LOCALE['WIP'] ?> </h3>
 		<table class="table table-striped">
+		<th> <?php echo $LOCALE['WIP'] ?> </th>
 
 		<?php
 
@@ -54,8 +52,8 @@
 		</table>
 	  </div>
 	  <div class="col-md-4">
-		<h3> <?php echo $LOCALE['DONE'] ?> </h3>
 		<table class="table table-striped">
+		<th> <?php echo $LOCALE['DONE'] ?> </th>
 
 		<?php
 
