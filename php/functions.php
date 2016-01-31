@@ -5,14 +5,14 @@
 		$uhash = hash("sha256", $uname."Salt&Pepper".$upass);
 		if(isset($SHADOW[$uhash])) {
 			$_SESSION['AUTH']=1;
-			$_SESSION['USER']=$_POST['inputUser'];
+			$_SESSION['USER']=$uname;
 			$_SESSION['LANG']=$SHADOW[$uhash]['lang'];
 			$_SESSION['RIGHTS']=$SHADOW[$uhash]['rights'];
 			$_SESSION['USERHASH']=$uhash;
 		}
 	}
 	//Add/modify with name and pass, remove with name only
-	function userAddRemove($uname, $upass){
+	function userAddRemove($uname, $upass, $urights){
 		$SHADOW = json_decode(file_get_contents('./data/users.json'),true);
 		foreach($SHADOW as $k=>$v){
 			if(isset($v['name']) && $v['name']==$uname){
@@ -26,10 +26,10 @@
 		}
 
 		if(isset($upass) && ctype_alnum($upass)){
-			$newhash=hash("sha256", $_POST['modUser']."Salt&Pepper".$_POST['modPassword']);
-			$SHADOW[$newhash]['name']=$_POST['modUser'];
+			$newhash=hash("sha256", $uname."Salt&Pepper".$upass);
+			$SHADOW[$newhash]['name']=$uname;
 			$SHADOW[$newhash]['lang']='french';
-			if(isset($_POST['modAdmin'])){
+			if(isset($urights)){
 				$SHADOW[$newhash]['rights']='admin';
 			} else {
 				$SHADOW[$newhash]['rights']='user';
