@@ -25,7 +25,7 @@
 			$SHADOW = json_decode(file_get_contents('./data/users.json'),true);
 			$newhash=hash("sha256","totoSalt&Peppertata");
 			$this->assertTrue(isset($SHADOW[$newhash]));
-			userAddRemove("toto");
+			userAddRemove("toto",null,null);
 			$SHADOW = json_decode(file_get_contents('./data/users.json'),true);
 			$this->assertFalse(isset($SHADOW[$newhash]));
 		}
