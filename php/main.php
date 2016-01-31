@@ -1,5 +1,5 @@
 <?php
-	
+
 ?>
 
     <nav class="navbar navbar-default">
@@ -32,49 +32,74 @@
       </div>
     <div class="row">
 	  <div class="col-md-4">
+		<div class="table-responsive">
 		<table class="table table-striped">
+		<tr>
 		<th> <?php echo $LOCALE['TODO'] ?> </th>
+		</tr>
 
 		<?php
-
-			$TODO = json_decode(file_get_contents('./data/todo.json'),true);
 			foreach($TODO as $k=>$v){
-				echo '<tr><td>'.$k.'</td><td>'.$v.'</td></tr>';
+				echo '<tr><td>'.$k.'</td><td>'.$v['data'].'</td> <td>';
+				if($_SESSION['USER']==$v['author'] || isset($_SESSION['RIGHTS']) && $_SESSION['RIGHTS']=='admin'){
+					echo
+					'<form method="post">
+					<button class="btn btn-default" name="deltodo['.$k.']" type="submit">'.$LOCALE['DELETE'].'</button>
+					</form>';
+				};
+				echo '</td> </tr>';
 			}
 
 		?>
 
 		</table>
 	  </div>
+	  </div>
 	  <div class="col-md-4">
+		<div class="table-responsive">
 		<table class="table table-striped">
+		<tr>
 		<th> <?php echo $LOCALE['WIP'] ?> </th>
-
+		</tr>
 		<?php
-
-			$WIP = json_decode(file_get_contents('./data/wip.json'),true);
 			foreach($WIP as $k=>$v){
-				echo '<tr><td>'.$k.'</td><td>'.$v.'</td></tr>';
+				echo '<tr><td>'.$k.'</td><td>'.$v['data'].'</td> <td>';
+				if($_SESSION['USER']==$v['author'] || isset($_SESSION['RIGHTS']) && $_SESSION['RIGHTS']=='admin'){
+					echo
+					'<form method="post">
+					<button class="btn btn-default" name="delwip['.$k.']" type="submit">'.$LOCALE['DELETE'].'</button>
+					</form>';
+				};
+				echo '</td> </tr>';
 			}
 
 		?>
 
 		</table>
 	  </div>
+	  </div>
 	  <div class="col-md-4">
+		<div class="table-responsive">
 		<table class="table table-striped">
+		<tr>
 		<th> <?php echo $LOCALE['DONE'] ?> </th>
-
+		</tr>
 		<?php
-
-			$ENDED = json_decode(file_get_contents('./data/done.json'),true);
 			foreach($ENDED as $k=>$v){
-				echo '<tr><td>'.$k.'</td><td>'.$v.'</td></tr>';
+				echo '<tr><td>'.$k.'</td><td>'.$v['data'].'</td> <td>';
+				if($_SESSION['USER']==$v['author'] || isset($_SESSION['RIGHTS']) && $_SESSION['RIGHTS']=='admin'){
+					echo
+					'<form method="post">
+				a	<button class="btn btn-default" name="delended['.$k.']" type="submit">'.$LOCALE['DELETE'].'</button>
+					</form>';
+				};
+				echo '</td> </tr>';
 			}
 
 		?>
 
 		</table>
+	  </div>
 	  </div>
     </div>
 

@@ -1,6 +1,6 @@
 {
 	"LANG":"Francais",
-	"ADD":"Ajouter",
+	"ADD":"Ajouter/Modifier",
 	"SIGNIN":"S'identifier",
 	"EMAIL":"Adresse électronique",
 	"PASSWORD":"Mot de passe",
@@ -12,5 +12,8 @@
 	"DONE":"Fini",
 	"MANAGE":"Gestion",
 	"REMEMBER":"Se souvenir",
-	"TASK":"Tache"
+	"TASK":"Tache",
+	"DELETE":"Supprimer",
+	"BACK":"Retour",
+	"USERMOD":"Gerer les utilisateurs"
 }

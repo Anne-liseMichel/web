@@ -1,6 +1,6 @@
 {
 	"LANG":"English",
-	"ADD":"Add",
+	"ADD":"Add/Modify",
 	"SIGNIN":"Identify",
 	"EMAIL":"Email address",
 	"PASSWORD":"Password",
@@ -12,5 +12,8 @@
 	"DONE":"Done",
 	"MANAGE":"Management",
 	"REMEMBER":"Remember me",
-	"TASK":"Task"
+	"TASK":"Task",
+	"DELETE":"Delete",
+	"BACK":"Return",
+	"USERMOD":"Manage the users"
 }
