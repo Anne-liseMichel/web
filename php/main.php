@@ -31,6 +31,7 @@
 		</tr>
 
 		<?php
+			if(isset($TODO)){
 			foreach($TODO as $k=>$v){
 				echo '<tr><td>'.$k.'</td><td>'.$v['data'].'</td><td>'.$v['author'].'</td><td>'.$v['date'].'</td> <td>';
 				if($_SESSION['USER']==$v['author'] || isset($_SESSION['RIGHTS']) && $_SESSION['RIGHTS']=='admin'){
@@ -40,7 +41,7 @@
 					</form>';
 				};
 				echo '</td> </tr>';
-			}
+			}}
 
 		?>
 
@@ -54,6 +55,7 @@
 		<th> <?php echo $LOCALE['WIP'] ?> </th>
 		</tr>
 		<?php
+			if(isset($WIP)){
 			foreach($WIP as $k=>$v){
 				echo '<tr><td>'.$k.'</td><td>'.$v['data'].'</td><td>'.$v['author'].'</td><td>'.$v['date'].'</td> <td>';
 				if($_SESSION['USER']==$v['author'] || isset($_SESSION['RIGHTS']) && $_SESSION['RIGHTS']=='admin'){
@@ -63,7 +65,7 @@
 					</form>';
 				};
 				echo '</td> </tr>';
-			}
+			}}
 
 		?>
 
@@ -77,6 +79,7 @@
 		<th> <?php echo $LOCALE['DONE'] ?> </th>
 		</tr>
 		<?php
+			if(isset($ENDED)){
 			foreach($ENDED as $k=>$v){
 				echo '<tr><td>'.$k.'</td><td>'.$v['data'].'</td><td>'.$v['author'].'</td><td>'.$v['date'].'</td> <td>';
 				if($_SESSION['USER']==$v['author'] || isset($_SESSION['RIGHTS']) && $_SESSION['RIGHTS']=='admin'){
@@ -86,7 +89,7 @@
 					</form>';
 				};
 				echo '</td> </tr>';
-			}
+			}}
 
 		?>
 

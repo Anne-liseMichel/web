@@ -1,0 +1,20 @@
+{
+	"LANG":"English",
+	"ADD":"Add/Modify",
+	"SIGNIN":"Identify",
+	"EMAIL":"Email address",
+	"PASSWORD":"Password",
+	"LOGIN":"Username",
+	"DISCONNECT":"Log out",
+	"SEND":"Send",
+	"TODO":"To do",
+	"WIP":"Work in progress",
+	"DONE":"Done",
+	"MANAGE":"Management",
+	"REMEMBER":"Remember me",
+	"TASK":"Task",
+	"DELETE":"Delete",
+	"BACK":"Return",
+	"USERMOD":"Manage the users",
+	"REFRESH":"Refresh"
+}

@@ -1,0 +1,20 @@
+{
+	"LANG":"Francais",
+	"ADD":"Ajouter/Modifier",
+	"SIGNIN":"S'identifier",
+	"EMAIL":"Adresse électronique",
+	"PASSWORD":"Mot de passe",
+	"LOGIN":"Nom d'utilisateur",
+	"DISCONNECT":"Déconnexion",
+	"SEND":"Envoyer",
+	"TODO":"A faire",
+	"WIP":"En cours",
+	"DONE":"Fini",
+	"MANAGE":"Gestion",
+	"REMEMBER":"Se souvenir",
+	"TASK":"Tache",
+	"DELETE":"Supprimer",
+	"BACK":"Retour",
+	"USERMOD":"Gerer les utilisateurs",
+	"REFRESH":"Rafraichir"
+}

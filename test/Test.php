@@ -1,4 +1,6 @@
 <?php
+	include_once('./php/functions.php');
+
 	Class ZZTest extends PHPUnit_Framework_TestCase
 	{
 		// Makes sure the tests work
@@ -6,8 +8,9 @@
 			$this->assertTrue(true);
 		}
 
-		public function authorizedLogin(){
-
+		public function unauthorizedLogin(){
+			userAuth("toto","tata");
+			$this->assertFalse($_SESSION['AUTH']==1);
 		}
 	}
 ?>

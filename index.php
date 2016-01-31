@@ -1,4 +1,5 @@
 <?php
+	include_once("./php/functions.php");
 	//Starts the session
 	if(!isset($_SESSION)) { 
 		session_start();
@@ -7,8 +8,6 @@
 	if(!isset($_SESSION['LANG'])) { 
 		$_SESSION['LANG']='french';
 	}
-	//Loads the desired language file
-	$LOCALE = json_decode(file_get_contents('./data/'.$_SESSION['LANG'].'.json'),true);
 	//Inits the authentification
 	if(!isset($_SESSION['AUTH'])) { 
 		$_SESSION['AUTH']=0;
@@ -18,46 +17,12 @@
 	isset($_POST['inputUser']) && isset($_POST['inputPassword']) &&
 	ctype_alnum($_POST['inputUser']) && ctype_alnum($_POST['inputPassword'])
 	) {
-		$SHADOW = json_decode(file_get_contents('./data/users.json'),true);
-		$uhash = hash("sha256", $_POST['inputUser']."Salt&Pepper".$_POST['inputPassword']);
-		if(isset($SHADOW[$uhash])) {
-			$_SESSION['AUTH']=1;
-			$_SESSION['USER']=$_POST['inputUser'];
-			$_SESSION['LANG']=$SHADOW[$uhash]['lang'];
-			$_SESSION['RIGHTS']=$SHADOW[$uhash]['rights'];
-			$_SESSION['USERHASH']=$uhash;
-			$LOCALE = json_decode(file_get_contents('./data/'.$_SESSION['LANG'].'.json'),true);
-		}
+		userAuth($_POST['inputUser'],$_POST['inputPassword']);
 	}
 
 	//Adds or modifies the user
 	if(isset($_POST['modUser']) && ctype_alnum($_POST['modUser']) ){
-		$SHADOW = json_decode(file_get_contents('./data/users.json'),true);
-		foreach($SHADOW as $k=>$v){
-			if(isset($v['name']) && $v['name']==$_POST['modUser']){
-				$modIndex=$k;
-				break;
-			}
-		}
-
-		if(isset($modIndex)){
-			unset($SHADOW[$modIndex]);
-		}
-
-		if(isset($_POST['modPassword']) && ctype_alnum($_POST['modPassword'])){
-			$newhash=hash("sha256", $_POST['modUser']."Salt&Pepper".$_POST['modPassword']);
-			$SHADOW[$newhash]['name']=$_POST['modUser'];
-			$SHADOW[$newhash]['lang']='french';
-			if(isset($_POST['modAdmin'])){
-				$SHADOW[$newhash]['rights']='admin';
-			} else {
-				$SHADOW[$newhash]['rights']='user';
-			}
-		}
-		
-		file_put_contents('./data/users.json',json_encode($SHADOW));
-		unset($modindex);
-		unset($_POST['modUser']);
+		userAddRemove($_POST['modUser'],$_POST['modPassword']);
 	}
 
 	//Redirects to main page on first arrival
@@ -87,26 +52,8 @@
 
 	//Language switch
 	if(isset($_POST['otherLang'])){
-		if($_SESSION['LANG']=='french'){
-			$_SESSION['LANG']='english';
-		} else {
-			$_SESSION['LANG']='french';
-		}
-		if($_SESSION['AUTH']==1){
-			$SHADOW = json_decode(file_get_contents('./data/users.json'),true);
-
-			if($_SESSION['LANG']=='french'){
-				$ulang='english';
-			} else {
-				$ulang='french';
-			}
-			$SHADOW[$_SESSION['USERHASH']]['lang']=$ulang;
-
-			file_put_contents('./data/users.json',json_encode($SHADOW));
-			
-		}
+		langSwitch();
 		unset($_POST['otherLang']);
-		$LOCALE = json_decode(file_get_contents('./data/'.$_SESSION['LANG'].'.json'),true);
 	}
 
 	//Cookie remember
@@ -128,61 +75,43 @@
 		exit;
 	}
 
-	//Task loader
-	$TODO = json_decode(file_get_contents('./data/todo.json'),true);
-	$WIP = json_decode(file_get_contents('./data/wip.json'),true);	
-	$ENDED = json_decode(file_get_contents('./data/done.json'),true);
-	$COUNT = intval(file_get_contents('./data/count'));
 
 	//Add task
-	if(isset($_POST['newTask'])){
+	if(isset($_POST['newTask']) && $_POST['taskType'] ){
+		$COUNT = intval(file_get_contents('./data/count'));
 		$COUNT++;
-		if($_POST['taskType']=="todo"){
-			$TODO[$COUNT]['data']=$_POST['taskdata'];
-			$TODO[$COUNT]['author']=$_SESSION['USER'];
-			$TODO[$COUNT]['date']=$_POST['taskdate'];
-			file_put_contents('./data/todo.json',json_encode($TODO));
-		} else if($_POST['taskType']=="wip"){
-			$WIP[$COUNT]['data']=$_POST['taskdata'];
-			$WIP[$COUNT]['author']=$_SESSION['USER'];
-			$WIP[$COUNT]['date']=$_POST['taskdate'];
-			file_put_contents('./data/wip.json',json_encode($WIP));
-		} else if($_POST['taskType']=="done"){
-			$ENDED[$COUNT]['data']=$_POST['taskdata'];
-			$ENDED[$COUNT]['author']=$_SESSION['USER'];
-			$ENDED[$COUNT]['date']=$_POST['taskdate'];
-			file_put_contents('./data/done.json',json_encode($ENDED));
-		}
+		addTask($_SESSION['USER'],$_POST['taskdata'],$_POST['taskdate'],$_POST['taskType'],$COUNT);
 		file_put_contents('./data/count',$COUNT);
 	}
 	
 	//Deletes tasks TODO...
 	if(isset($_POST['deltodo'])){
 		foreach($_POST['deltodo'] as $delete => $void){
-			unset($TODO[$delete]);
-			unset($_POST['deltodo'][$delete]);
+			delTask($delete,"todo");
 		}
-		file_put_contents('./data/todo.json',json_encode($TODO));
 	}
 
 	//... WIP ...
 	if(isset($_POST['delwip'])){
 		foreach($_POST['delwip'] as $delete => $void){
-			unset($WIP[$delete]);
-			unset($_POST['delwip'][$delete]);
+			delTask($delete,"wip");
 		}
-		file_put_contents('./data/wip.json',json_encode($WIP));
 	}
 
 	//... and ENDED
 	if(isset($_POST['delended'])){
 		foreach($_POST['delended'] as $delete => $void){
-			unset($ENDED[$delete]);
-			unset($_POST['delended'][$delete]);
+			delTask($delete,"done");
 		}
-		file_put_contents('./data/done.json',json_encode($ENDED));
 	}
 	
+	//Loads the desired language file
+	$LOCALE = json_decode(file_get_contents('./data/'.$_SESSION['LANG'].'.json'),true);
+
+	//Task loader
+	$TODO = json_decode(file_get_contents('./data/todo.json'),true);
+	$WIP = json_decode(file_get_contents('./data/wip.json'),true);	
+	$ENDED = json_decode(file_get_contents('./data/done.json'),true);
 ?>
 
 <!DOCTYPE html>
