@@ -29,5 +29,27 @@
 			$SHADOW = json_decode(file_get_contents('./data/users.json'),true);
 			$this->assertFalse(isset($SHADOW[$newhash]));
 		}
+
+		public function testLangSwitch(){
+			if($_SESSION['LANG']=='french'){
+				langSwitch();
+				$this->assertEquals('english',$_SESSION['LANG']);
+			} else {
+				langSwitch();
+				$this->assertEquals('french',$_SESSION['LANG']);
+			}
+			
+		}
+
+		public function testAddDelTask(){
+			$COUNT = intval(file_get_contents('./data/count'));
+			$COUNT++;
+			addTask("polo","marco","2016-01-01","wip",$COUNT);
+			$WIP = json_decode(file_get_contents('./data/wip.json'),true);
+			$this->assertEquals('marco',$WIP[$COUNT]['data']);
+			delTask($COUNT,"wip");
+			$WIP = json_decode(file_get_contents('./data/wip.json'),true);
+			$this->assertFalse(isset($WIP[$COUNT]));
+		}
 	}
 ?>

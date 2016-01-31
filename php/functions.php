@@ -29,7 +29,7 @@
 			$newhash=hash("sha256", $uname."Salt&Pepper".$upass);
 			$SHADOW[$newhash]['name']=$uname;
 			$SHADOW[$newhash]['lang']='french';
-			if(isset($urights)){
+			if($urights){
 				$SHADOW[$newhash]['rights']='admin';
 			} else {
 				$SHADOW[$newhash]['rights']='user';
