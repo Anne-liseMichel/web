@@ -5,7 +5,7 @@
 	{
 		// Makes sure the tests work
 		public function testTest(){
-			$this->assertTrue(true);
+			$this->assertFalse(true);
 		}
 
 		public function unauthorizedLogin(){
