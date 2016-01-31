@@ -17,3 +17,29 @@ User : (Read all, write & delete own)
 Admin : (Read, write, delete all & manage users)
 
 	david2:david2
+
+## HOWTO
+
+To login :
+
+	Enter your login/password and send.
+
+To add tasks :
+
+	Use the form on the right (bottom on mobile).
+
+To update tasks :
+
+	You have to copy the contents of the original in the form (sorry :D).
+
+To delete tasks :
+
+	Click on delete.
+
+To add users :
+
+	Go to management and enter login/password.
+
+To delete users :
+
+	Go to management and enter login. Leave password blank !
