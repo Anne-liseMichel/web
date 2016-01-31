@@ -1,5 +1,4 @@
 <?php
-
 	//Starts the session
 	if(!isset($_SESSION)) { 
 		session_start();
@@ -24,14 +23,43 @@
 		if(isset($SHADOW[$uhash])) {
 			$_SESSION['AUTH']=1;
 			$_SESSION['USER']=$_POST['inputUser'];
-			$expl = explode('-',$SHADOW[$uhash]);
-			$_SESSION['LANG']=$expl[0];
-			$_SESSION['RIGHTS']=$expl[1];
+			$_SESSION['LANG']=$SHADOW[$uhash]['lang'];
+			$_SESSION['RIGHTS']=$SHADOW[$uhash]['rights'];
 			$_SESSION['USERHASH']=$uhash;
-			$_SESSION['USERSET']=$SHADOW[$uhash];
 			$LOCALE = json_decode(file_get_contents('./data/'.$_SESSION['LANG'].'.json'),true);
 		}
 	}
+
+	//Adds or modifies the user
+	if(isset($_POST['modUser']) && ctype_alnum($_POST['modUser']) ){
+		$SHADOW = json_decode(file_get_contents('./data/users.json'),true);
+		foreach($SHADOW as $k=>$v){
+			if(isset($v['name']) && $v['name']==$_POST['modUser']){
+				$modIndex=$k;
+				break;
+			}
+		}
+
+		if(isset($modIndex)){
+			unset($SHADOW[$modIndex]);
+		}
+
+		if(isset($_POST['modPassword']) && ctype_alnum($_POST['modPassword'])){
+			$newhash=hash("sha256", $_POST['modUser']."Salt&Pepper".$_POST['modPassword']);
+			$SHADOW[$newhash]['name']=$_POST['modUser'];
+			$SHADOW[$newhash]['lang']='french';
+			if(isset($_POST['modAdmin'])){
+				$SHADOW[$newhash]['rights']='admin';
+			} else {
+				$SHADOW[$newhash]['rights']='user';
+			}
+		}
+		
+		file_put_contents('./data/users.json',json_encode($SHADOW));
+		unset($modindex);
+		unset($_POST['modUser']);
+	}
+
 	//Redirects to main page on first arrival
 	if(isset($_SESSION['AUTH']) && $_SESSION['AUTH']==1) {
 		if($_SESSION['PAGE']=='signin.php'){
@@ -43,10 +71,6 @@
 			unset($_POST['manage']);
 			$_SESSION['PAGENAME']='AM-VS Manager';
 			$_SESSION['PAGE']='manage.php';
-		} else if(isset($_POST['addTask'])){
-			unset($_POST['addTask']);
-			$_SESSION['PAGENAME']='AM-VS TaskAdd';
-			$_SESSION['PAGE']='add.php';
 		} else if(isset($_POST['return'])){
 			unset($_POST['return']);
 			$_SESSION['PAGENAME']='AM-VS TaskManager';
@@ -70,14 +94,13 @@
 		}
 		if($_SESSION['AUTH']==1){
 			$SHADOW = json_decode(file_get_contents('./data/users.json'),true);
-			$expl = explode('-',$_SESSION['USERSET']);
 
 			if($_SESSION['LANG']=='french'){
-				$uset='english'.'-'.$expl[1];
+				$ulang='english';
 			} else {
-				$uset='french'.'-'.$expl[1];
+				$ulang='french';
 			}
-			$SHADOW[$_SESSION['USERHASH']]=$uset;
+			$SHADOW[$_SESSION['USERHASH']]['lang']=$ulang;
 
 			file_put_contents('./data/users.json',json_encode($SHADOW));
 			
@@ -98,10 +121,40 @@
 		exit;
 	}
 
+	//Refresher
+	if(isset($_POST['refresh'])){
+		unset($_POST['refresh']);
+		header("Refresh:0");
+		exit;
+	}
+
 	//Task loader
 	$TODO = json_decode(file_get_contents('./data/todo.json'),true);
 	$WIP = json_decode(file_get_contents('./data/wip.json'),true);	
 	$ENDED = json_decode(file_get_contents('./data/done.json'),true);
+	$COUNT = intval(file_get_contents('./data/count'));
+
+	//Add task
+	if(isset($_POST['newTask'])){
+		$COUNT++;
+		if($_POST['taskType']=="todo"){
+			$TODO[$COUNT]['data']=$_POST['taskdata'];
+			$TODO[$COUNT]['author']=$_SESSION['USER'];
+			$TODO[$COUNT]['date']=$_POST['taskdate'];
+			file_put_contents('./data/todo.json',json_encode($TODO));
+		} else if($_POST['taskType']=="wip"){
+			$WIP[$COUNT]['data']=$_POST['taskdata'];
+			$WIP[$COUNT]['author']=$_SESSION['USER'];
+			$WIP[$COUNT]['date']=$_POST['taskdate'];
+			file_put_contents('./data/wip.json',json_encode($WIP));
+		} else if($_POST['taskType']=="done"){
+			$ENDED[$COUNT]['data']=$_POST['taskdata'];
+			$ENDED[$COUNT]['author']=$_SESSION['USER'];
+			$ENDED[$COUNT]['date']=$_POST['taskdate'];
+			file_put_contents('./data/done.json',json_encode($ENDED));
+		}
+		file_put_contents('./data/count',$COUNT);
+	}
 	
 	//Deletes tasks TODO...
 	if(isset($_POST['deltodo'])){

@@ -1,5 +1,4 @@
 <?php
-
 ?>
 
 
@@ -28,12 +27,31 @@
 			</div>
 			<div class="form-group">
 				<label for="modPassword"> <?php echo $LOCALE['PASSWORD'] ?> </label>
-				<input type="password" name="modPassword" class="form-control" required>
+				<input type="password" name="modPassword" class="form-control">
+			</div>
+
+			<div class="checkbox">
+				<label>
+				<input type="checkbox" name="modAdmin">
+				Admin ?
+				</label>
 			</div>
 
 			<button class="btn btn-lg btn-primary" type="submit"> <?php echo $LOCALE['SEND'] ?> </button>
 
 		      </form>
+
+	  </div>
+	  <div class="col-sm-4">
+		<table class="table table-striped">
+			<tr> <th>U</th> <th>R</th> </tr>
+			<?php
+				$SHADOW = json_decode(file_get_contents('./data/users.json'),true);
+				foreach($SHADOW as $k=>$v){
+					echo '<tr> <td>'.$v['name'].'</td><td>'.$v['rights'].'</td></tr>';
+				}
+			?>
+		</table>
 	  </div>
 	</div>
     </div> <!-- /container -->

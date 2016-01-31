@@ -15,5 +15,6 @@
 	"TASK":"Tache",
 	"DELETE":"Supprimer",
 	"BACK":"Retour",
-	"USERMOD":"Gerer les utilisateurs"
+	"USERMOD":"Gerer les utilisateurs",
+	"REFRESH":"Rafraichir"
 }

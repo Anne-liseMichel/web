@@ -15,5 +15,6 @@
 	"TASK":"Task",
 	"DELETE":"Delete",
 	"BACK":"Return",
-	"USERMOD":"Manage the users"
+	"USERMOD":"Manage the users",
+	"REFRESH":"Refresh"
 }
