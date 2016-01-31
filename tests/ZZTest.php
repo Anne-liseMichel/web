@@ -21,7 +21,7 @@
 		}
 
 		public function testAddDelUser(){
-			userAddRemove("toto","tata");
+			userAddRemove("toto","tata",true);
 			$SHADOW = json_decode(file_get_contents('./data/users.json'),true);
 			$newhash=hash("sha256","totoSalt&Peppertata");
 			$this->assertTrue(isset($SHADOW[$newhash]));

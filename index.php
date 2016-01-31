@@ -22,7 +22,7 @@
 
 	//Adds or modifies the user
 	if(isset($_POST['modUser']) && ctype_alnum($_POST['modUser']) ){
-		userAddRemove($_POST['modUser'],$_POST['modPassword'],isset($_POST['modAdmin']) ? $_POST['modAdmin'] : null );
+		userAddRemove($_POST['modUser'],$_POST['modPassword'],isset($_POST['modAdmin']) ? true : false );
 	}
 
 	//Redirects to main page on first arrival
