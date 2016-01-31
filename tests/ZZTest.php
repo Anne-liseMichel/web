@@ -4,17 +4,17 @@
 	class ZZTest extends PHPUnit_Framework_TestCase
 	{
 		// Makes sure the tests work
-		public function unauthorizedLogin(){
+		public function testUnauthorizedLogin(){
 			userAuth("toto","tata");
 			$this->assertFalse($_SESSION['AUTH']==1);
 		}
 
-		public function authorizedLogin(){
+		public function testAuthorizedLogin(){
 			userAuth("david","david");
 			$this->assertTrue($_SESSION['AUTH']==1);
 		}
 
-		public function addNdelUser(){
+		public function testAddDelUser(){
 			userAddRemove("toto","tata");
 			$SHADOW = json_decode(file_get_contents('./data/users.json'),true);
 			$newhash=hash("sha256","totoSalt&Peppertata");
