@@ -4,10 +4,6 @@
 	class ZZTest extends PHPUnit_Framework_TestCase
 	{
 		// Makes sure the tests work
-		public function testTest(){
-			$this->assertFalse(true);
-		}
-
 		public function unauthorizedLogin(){
 			userAuth("toto","tata");
 			$this->assertFalse($_SESSION['AUTH']==1);
