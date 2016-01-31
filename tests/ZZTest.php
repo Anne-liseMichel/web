@@ -1,7 +1,7 @@
 <?php
 	include_once('./php/functions.php');
 
-	Class ZZTest extends PHPUnit_Framework_TestCase
+	class ZZTest extends PHPUnit_Framework_TestCase
 	{
 		// Makes sure the tests work
 		public function testTest(){
