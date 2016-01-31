@@ -3,12 +3,18 @@
 
 	class ZZTest extends PHPUnit_Framework_TestCase
 	{
-		// Makes sure the tests work
+		//Emulates a session
+		public function setup(){
+			global $_SESSION;
+			$_SESSION['LANG']='french';
+			$_SESSION['AUTH']=0;
+		}
+		// Tests unauth login
 		public function testUnauthorizedLogin(){
 			userAuth("toto","tata");
 			$this->assertFalse($_SESSION['AUTH']==1);
 		}
-
+		//Tests auth login
 		public function testAuthorizedLogin(){
 			userAuth("david","david");
 			$this->assertTrue($_SESSION['AUTH']==1);
