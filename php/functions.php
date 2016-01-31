@@ -1,5 +1,4 @@
 <?php
-	class ZZ {
 	//Auths the client
 	function userAuth($uname, $upass){
 		$SHADOW = json_decode(file_get_contents('./data/users.json'),true);
@@ -88,6 +87,5 @@
 			unset($TASKS[$task]);
 		}
 		file_put_contents('./data/'.$type.'.json',json_encode($TASKS));
-	}
 	}
 ?>
